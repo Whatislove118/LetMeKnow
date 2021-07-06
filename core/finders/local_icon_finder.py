@@ -3,22 +3,22 @@ import os
 from core.finders.finder import Finder
 
 
-class LocalAudioFinder(Finder):
+class LocalIconFinder(Finder):
     __instance = None
 
     def __init__(self):
-        if not LocalAudioFinder.__instance:
+        if not LocalIconFinder.__instance:
             print(" __init__ method called..")
-            self.audio_list = []
+            self.path = 'core/ui/static/icons/'
+            self.icon_list = []
             os.chdir(self.path)
         else:
             print("Instance already created:", self.getInstance())
 
     @classmethod
     def getInstance(cls):
-        # os.chdir(cls.path)
         if not cls.__instance:
-            cls.__instance = LocalAudioFinder()
+            cls.__instance = LocalIconFinder()
         return cls.__instance
 
 
@@ -26,7 +26,7 @@ class LocalAudioFinder(Finder):
     def find_all(self):
         files = os.walk('.')
         files = self.get_filenames_from_directory(files=files)
-        self.audio_list = files
+        self.icon_list = files
 
     def get_filenames_from_directory(self, files) -> list:
         result = []
@@ -35,6 +35,6 @@ class LocalAudioFinder(Finder):
                 result.append(filename.split('.')[0])
         return result
 
-    def get_audio_file_by_name(self, name):
+    def get_icon_file_by_name(self, name):
         for o in os.walk('.'):
             print(o)
