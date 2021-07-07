@@ -1,0 +1,31 @@
+{
+  "icon": [
+    {
+      "icon-path": "core/ui/static/icons/",
+      "default-icon": "default.png"
+    }
+  ],
+  "audio": [
+    {
+      "audio-path": "core/ui/static/music/",
+      "default-audio": "default.mp3"
+    }
+  ],
+  "base": [
+    {
+      "arrow": [
+        {
+          "left-arrow": "core/ui/static/base/left-arrow.png",
+          "right-arrow": "core/ui/static/base/right-arrow.png"
+        }
+      ],
+      "player": [
+        {
+          "play-button": "core/ui/static/base/play-button.png",
+          "pause-button": "core/ui/static/base/pause-button.png"
+        }
+      ],
+      "base-icon": "core/ui/static/base/plus.png"
+    }
+  ]
+}
