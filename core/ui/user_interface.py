@@ -29,24 +29,24 @@ info_column = [
 
         sg.Text('sec', pad=((6, 0), (4, 4))),
         sg.Button(key='__DECREASE_SECONDS__', image_filename='core/ui/static/base/left-arrow.png', image_size=(20, 20)),
-        sg.InputText(size=(2, 100), pad=((1, 1), (10, 10)), key='__SECONDS__'),
+        sg.InputText(size=(2, 100), pad=((1, 1), (10, 10)), key='__SECONDS__', default_text=0, justification='center'),
         sg.Button(key='__INCREASE_SECONDS__', image_filename='core/ui/static/base/right-arrow.png', image_size=(20, 20)),
 
         sg.Text('min', pad=((40, 0), (4, 4))),
         sg.Button(key='__DECREASE_MINUTES__', image_filename='core/ui/static/base/left-arrow.png', image_size=(20, 20)),
-        sg.InputText(size=(2, 100), pad=((1, 1), (10, 10)), key='__MINUTES__'),
+        sg.InputText(size=(2, 100), pad=((1, 1), (10, 10)), key='__MINUTES__', default_text=0, justification='center'),
         sg.Button(key='__INCREASE_MINUTES__', image_filename='core/ui/static/base/right-arrow.png', image_size=(20, 20)),
 
         sg.Text('hour', pad=((40, 0), (4, 4))),
         sg.Button(key='__DECREASE_HOURS__', image_filename='core/ui/static/base/left-arrow.png', image_size=(20, 20)),
-        sg.InputText(size=(2, 100), pad=((1, 1), (10, 10)), key='__HOURS__'),
+        sg.InputText(size=(2, 100), pad=((1, 1), (10, 10)), key='__HOURS__', default_text=0, justification='center'),
         sg.Button(key='__INCREASE_HOURS__', image_filename='core/ui/static/base/right-arrow.png', image_size=(20, 20))
     ]
 ]
 
 image_column = [
     [
-        sg.Image(filename='core/ui/static/base/plus.png', size=(98, 97), enable_events=True, key='__BROWSE_ICON__'),
+        sg.Image(filename='core/ui/static/base/plus.png', size=(120, 139), enable_events=True, key='__BROWSE_ICON__', background_color='white'),
     ]
 ]
 
@@ -55,15 +55,10 @@ layout = [
         sg.Column(layout=image_column, vertical_alignment='left', justification='center', pad=((0, 0), (10, 10))),
         sg.Column(layout=info_column, vertical_alignment='center', justification='center'),
     ],
-
-    # [
-    #    sg.Button(button_text='hi',)
-    #  ],
-    # [sg.Text('File 2'), sg.InputText(), sg.FileBrowse(),
-    #  sg.Checkbox('SHA256')
-    #  ],
-    # [sg.Output(size=(20, 20))],
-    # [sg.Submit(), sg.Cancel()]
+    [
+        sg.Submit(pad=((315, 5), (10, 10))),
+        sg.Cancel(pad=((5, 315), (10, 10)))
+     ]
 ]
 
 

@@ -2,7 +2,7 @@ import os
 import sys
 import time
 from notifypy import Notify
-
+import re
 from core.configuration.parser import Parser, Serializer
 from core.finders.local_audio_finder import LocalAudioFinder
 from core.finders.local_icon_finder import LocalIconFinder
@@ -62,8 +62,11 @@ if __name__ == '__main__':
             image_name = popup_select(local_icon_finder.format_names(), is_audio=False)
             window['__BROWSE_ICON__'].update(local_icon_finder.find_by_name(image_name, config_object.icon_path))
 
+        if re.match(r'__INCREASE__*', event):
+            pass
 
-
+        if re.match(r'__DECREASE__*', event):
+            pass
 
 
 
