@@ -63,14 +63,15 @@ layout = [
     # [sg.Submit(), sg.Cancel()]
 ]
 
-layout_popup = [
-    [ ],
-    [
-        sg.OK(pad=((4, 160), (10, 10))),
-    ]
-]
 
 def popup_select(elements, is_audio=True):
+    layout_popup = [
+        [],
+        [
+            sg.OK(pad=((4, 160), (10, 10))),
+        ]
+    ]
+    
     list_box_key = '_{}_'
     button_download_key = '__DOWNLOAD_{}__'
     window_name = 'Choose {}'
@@ -93,7 +94,6 @@ def popup_select(elements, is_audio=True):
 
     layout_popup[1].append(sg.Button(button_text='Download', button_color='blue', key=button_download_key, pad=((0, 132), (10, 10))))
     layout_popup[1].append(sg.Cancel(button_color='red'))
-
     window_popup = sg.Window(window_name, layout=layout_popup, font=font)
     event_popup, values_popup = window_popup.read()
     window_popup.close()

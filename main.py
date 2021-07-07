@@ -28,16 +28,16 @@ if __name__ == '__main__':
         if event == '__PLAY_AUDIO__':
             # TODO add multithreading
             local_audio_finder = LocalAudioFinder.getInstance()
-            audio_name = window['_AUDIO_NAME_'].get() + '.mp3'
+            audio_name = local_audio_finder.find_by_name(window['_AUDIO_NAME_'].get())
             mixer.music.load(audio_name)
             mixer.music.play()
         if event == '__STOP_AUDIO__':
             mixer.music.stop()
         if event == '__BROWSE_ICON__':
             local_icon_finder = LocalIconFinder.getInstance()
-            files = local_icon_finder.find_all()
-            image_name = popup_select(local_icon_finder.icon_list, is_audio=False)
-            window['__BROWSE_ICON__'].update(image_name + '.png')
+            local_icon_finder.find_all()
+            image_name = popup_select(local_icon_finder.format_names(), is_audio=False)
+            window['__BROWSE_ICON__'].update(local_icon_finder.find_by_name(image_name))
 
 
 

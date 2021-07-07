@@ -1,6 +1,8 @@
 import os
+from copy import copy
 
 from core.finders.finder import Finder
+from core.threads.thread_finder import ThreadFinder
 
 
 class LocalIconFinder(Finder):
@@ -11,7 +13,6 @@ class LocalIconFinder(Finder):
             print(" __init__ method called..")
             self.path = 'core/ui/static/icons/'
             self.icon_list = []
-            os.chdir(self.path)
         else:
             print("Instance already created:", self.getInstance())
 
@@ -21,12 +22,23 @@ class LocalIconFinder(Finder):
             cls.__instance = LocalIconFinder()
         return cls.__instance
 
-
+    def format_names(self):
+        result = copy(self.icon_list)
+        for i, icon in enumerate(self.icon_list):
+            result[i] = icon.split('/').pop().split('.')[0]
+        return result
+            
 
     def find_all(self):
-        files = os.walk('.')
-        files = self.get_filenames_from_directory(files=files)
-        self.icon_list = files
+        thread_finder = ThreadFinder('Finder icon', self.path)
+        thread_finder.start()
+        while thread_finder.is_alive():
+            pass
+        for i, f in enumerate(thread_finder.files):
+            thread_finder.files[i] = self.path + f + '.png'
+        self.icon_list = thread_finder.files
+
+
 
     def get_filenames_from_directory(self, files) -> list:
         result = []
@@ -35,6 +47,13 @@ class LocalIconFinder(Finder):
                 result.append(filename.split('.')[0])
         return result
 
-    def get_icon_file_by_name(self, name):
-        for o in os.walk('.'):
-            print(o)
+    def find_by_name(self, name):
+        thread_finder = ThreadFinder('Finder icon', self.path)
+        thread_finder.start()
+        print(name)
+        while thread_finder.is_alive():
+            pass
+        print(thread_finder.files)
+        for f in thread_finder.files:
+            if f == name:
+                return self.path + name + '.png'
