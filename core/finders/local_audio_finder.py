@@ -31,7 +31,7 @@ class LocalAudioFinder(Finder):
         print(thread_finder.files)
         for f in thread_finder.files:
             if f == name:
-                return path + name + '.mp3'
+                return path + name + '.wav'
 
 
     def find_all(self, path):
@@ -48,6 +48,3 @@ class LocalAudioFinder(Finder):
                 result.append(filename.split('.')[0])
         return result
 
-    def get_audio_file_by_name(self, name):
-        for o in os.walk('.'):
-            print(o)

@@ -1,17 +1,14 @@
-import os
+
 import sys
-import time
-from notifypy import Notify
 import re
 from core.configuration.parser import Parser, Serializer
 from core.finders.local_audio_finder import LocalAudioFinder
 from core.finders.local_icon_finder import LocalIconFinder
-from core.timer import Timer
-import threading
 import PySimpleGUI as sg
 from pygame import mixer
 
-from core.ui.user_interface import layout, font, popup_select
+from core.timer import Timer
+from core.ui.user_interface import layout, font, popup_select, change_value, set_default, get_data_from_window
 
 
 def configure():
@@ -28,6 +25,7 @@ def configure():
         sys.exit(0)
 
 
+#TODO add validate and add list of notify
 if __name__ == '__main__':
     sg.theme('Dark')
 
@@ -61,15 +59,25 @@ if __name__ == '__main__':
             local_icon_finder.find_all(config_object.icon_path)
             image_name = popup_select(local_icon_finder.format_names(), is_audio=False)
             window['__BROWSE_ICON__'].update(local_icon_finder.find_by_name(image_name, config_object.icon_path))
+            window['__BROWSE_ICON__'].Filename = local_icon_finder.find_by_name(image_name, config_object.icon_path)
+            window['__BROWSE_ICON__'].set_size((120, 139))
 
-        if re.match(r'__INCREASE__*', event):
-            pass
+        if re.match(r'__INCREASE__*', event) or re.match(r'__DECREASE__*', event):
+            event = event.split('__')[1].split('_')
+            type_time = event[1]
+            type_event = True if event[0] == 'INCREASE' else False
+            change_value(type_time, window, is_increase=type_event)
 
-        if re.match(r'__DECREASE__*', event):
-            pass
+        if event == '__CLEAR__':
+            event = sg.popup_ok_cancel('Do you want to clear all data? All of unsaved information will be reset', font=font)
+            if event == 'OK':
+                set_default(window)
 
-
-
+        if event == '__SUBMIT__':
+            data = get_data_from_window(window, config_object)
+            print(data)
+            timer = Timer(data)
+            timer.start()
 
 
     # input_value = int(input())
