@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 
-from core.configuration.configuration_object import ConfigurationObject
+
 from core.finders.local_audio_finder import LocalAudioFinder
 
 font = ('Arial, 15')
@@ -149,14 +149,47 @@ def change_value(type_time, window, is_increase=True):
         value -= 1
     window[key].update(value)
 
-def set_default(window):
-    window['__TITLE__'].update('')
-    window['__DESC__'].update('')
-    window['__BROWSE_ICON__'].update('core/ui/static/base/plus.png')
-    window['__BROWSE_ICON__'].set_size(size=(120, 139))
-    window['__SECONDS__'].update(0)
-    window['__MINUTES__'].update(0)
-    window['__HOURS__'].update(0)
+
+def set_default(window, config_object, field=None):
+    short_keys = {
+        'title': ['__TITLE__', ''],
+        'desc': ['__DESC__', ''],
+        'icon': ['__BROWSE_ICON__', config_object.base_icon, (120, 139)],
+        'audio': ['_AUDIO_NAME_', 'Dope'],
+        'time': [
+            ['__SECONDS__', 0],
+            ['__MINUTES__', 0],
+            ['__HOURS__', 0]
+        ]
+    }
+
+    if field is None:
+        for (k, v) in short_keys.items():
+            if k == 'time':
+                for t in v:
+                    window[t[0]].update(t[1])
+                continue
+            window[v[0]].update(v[1])
+            if k == 'icon':
+                window[v[0]].set_size(size=(120, 139))
+
+        # window['__TITLE__'].update('')
+        # window['__DESC__'].update('')
+        # window['__BROWSE_ICON__'].update(config_object.base_icon)
+        # window['__BROWSE_ICON__'].set_size(size=(120, 139))
+        # window['_AUDIO_NAME_'].update('Dope')
+        # window['__SECONDS__'].update(0)
+        # window['__MINUTES__'].update(0)
+        # window['__HOURS__'].update(0)
+    else:
+        if field == 'time':
+            for t in short_keys[field]:
+                window[t[0]].update(t[1])
+            return
+        k, v = short_keys[field][0], short_keys[field][1]
+        window[k].update(v)
+        if field == 'icon':
+            window[k].set_size(size=(120, 139))
 
 def get_data_from_window(window: sg.Window, config_object):
     local_audio_finder = LocalAudioFinder()

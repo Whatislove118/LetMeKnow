@@ -2,6 +2,7 @@
 import sys
 import re
 from core.configuration.parser import Parser, Serializer
+from core.exceptions.validation_exceptions import *
 from core.finders.local_audio_finder import LocalAudioFinder
 from core.finders.local_icon_finder import LocalIconFinder
 import PySimpleGUI as sg
@@ -9,6 +10,7 @@ from pygame import mixer
 
 from core.timer import Timer
 from core.ui.user_interface import layout, font, popup_select, change_value, set_default, get_data_from_window
+from core.validator import Validator
 
 
 def configure():
@@ -71,11 +73,32 @@ if __name__ == '__main__':
         if event == '__CLEAR__':
             event = sg.popup_ok_cancel('Do you want to clear all data? All of unsaved information will be reset', font=font)
             if event == 'OK':
-                set_default(window)
+                set_default(window, config_object)
 
         if event == '__SUBMIT__':
             data = get_data_from_window(window, config_object)
+            validator = Validator()
             print(data)
+            try:
+                validator.validate(data, config_object)
+            except TitleValidationException as e:
+                sg.popup_ok(e.txt)
+                set_default(window, config_object, 'title')
+                continue
+            except DescriptionValidationException as e:
+                sg.popup_ok(e.txt)
+                set_default(window, config_object, 'desc')
+                continue
+            except IconValidationException as e:
+                sg.popup_ok(e.txt)
+                set_default(window, config_object, 'icon')
+                continue
+            except TimeValidationException as e:
+                sg.popup_ok(e.txt)
+                set_default(window, config_object, 'time')
+                continue
+
+
             timer = Timer(data)
             timer.start()
 
