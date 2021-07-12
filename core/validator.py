@@ -5,13 +5,11 @@ class Validator:
 
     @staticmethod
     def validate(data, config_object):
-        try:
-            Validator._validate_title(data['title'])
-            Validator._validate_description(data['description'])
-            Validator._validate_icon(data['icon'], config_object)
-            Validator._validate_time(data['time'])
-        finally:
-            raise
+        Validator._validate_title(data['title'])
+        Validator._validate_description(data['description'])
+        Validator._validate_icon(data['icon'], config_object)
+        Validator._validate_time(data['time'])
+
 
     @staticmethod
     def _validate_title(title) -> bool:

@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-
+from notifypy import Notify
 
 from core.finders.local_audio_finder import LocalAudioFinder
 
@@ -57,7 +57,7 @@ layout = [
         sg.Column(layout=info_column, vertical_alignment='center', justification='center'),
     ],
     [
-            sg.Listbox(values=[], key='__LIST__', size=(70, 10), pad=((3, 3),(2, 2)))
+            sg.Listbox(values=[], key='__LIST__', size=(70, 10), pad=((3, 3),(2, 2)), enable_events=True)
     ],
     [
             sg.Submit(pad=((600, 10), (10, 10)), key='__SUBMIT__', button_color='green'),
@@ -65,6 +65,8 @@ layout = [
     ]
 
 ]
+
+
 
 
 # def configure_layouts(config_object: ConfigurationObject, window: sg.Window):
@@ -172,15 +174,6 @@ def set_default(window, config_object, field=None):
             window[v[0]].update(v[1])
             if k == 'icon':
                 window[v[0]].set_size(size=(120, 139))
-
-        # window['__TITLE__'].update('')
-        # window['__DESC__'].update('')
-        # window['__BROWSE_ICON__'].update(config_object.base_icon)
-        # window['__BROWSE_ICON__'].set_size(size=(120, 139))
-        # window['_AUDIO_NAME_'].update('Dope')
-        # window['__SECONDS__'].update(0)
-        # window['__MINUTES__'].update(0)
-        # window['__HOURS__'].update(0)
     else:
         if field == 'time':
             for t in short_keys[field]:
@@ -190,6 +183,7 @@ def set_default(window, config_object, field=None):
         window[k].update(v)
         if field == 'icon':
             window[k].set_size(size=(120, 139))
+
 
 def get_data_from_window(window: sg.Window, config_object):
     local_audio_finder = LocalAudioFinder()
@@ -201,9 +195,8 @@ def get_data_from_window(window: sg.Window, config_object):
         'time': int(window['__SECONDS__'].get()) + int(window['__MINUTES__'].get()) * 60 + int(window['__HOURS__'].get()) * 3600}
     return result
 
-
-
-
-
-
+def update_notify_list(window: sg.Window, notify: Notify, data):
+    elements = window['__LIST__'].get_list_values()
+    elements.append(notify.title)
+    window['__LIST__'].update(elements)
 

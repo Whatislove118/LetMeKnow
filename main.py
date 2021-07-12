@@ -9,7 +9,8 @@ import PySimpleGUI as sg
 from pygame import mixer
 
 from core.timer import Timer
-from core.ui.user_interface import layout, font, popup_select, change_value, set_default, get_data_from_window
+from core.ui.user_interface import layout, font, popup_select, change_value, set_default, get_data_from_window, \
+    update_notify_list, popup_notify_manage
 from core.validator import Validator
 
 
@@ -27,7 +28,7 @@ def configure():
         sys.exit(0)
 
 
-#TODO add validate and add list of notify
+#TODO add list of notify
 if __name__ == '__main__':
     sg.theme('Dark')
 
@@ -97,10 +98,10 @@ if __name__ == '__main__':
                 sg.popup_ok(e.txt)
                 set_default(window, config_object, 'time')
                 continue
-
-
             timer = Timer(data)
             timer.start()
+            update_notify_list(window, timer.notify, data)
+
 
 
     # input_value = int(input())
