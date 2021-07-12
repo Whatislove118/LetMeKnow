@@ -10,7 +10,7 @@ from pygame import mixer
 
 from core.timer import Timer
 from core.ui.user_interface import layout, font, popup_select, change_value, set_default, get_data_from_window, \
-    update_notify_list, popup_notify_manage
+    update_notify_list
 from core.validator import Validator
 
 
